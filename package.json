@@ -27,6 +27,7 @@
     "@types/falcor": "^0.1.22",
     "@types/falcor-express": "^0.1.17",
     "@types/falcor-router": "^0.4.17",
+    "@types/shortid": "0.0.29",
     "ajv": "^5.2.3",
     "body-parser": "^1.18.2",
     "cookie-parser": "^1.4.3",
@@ -36,7 +37,8 @@
     "falcor-express": "^0.1.4",
     "falcor-router": "^0.8.1",
     "immutable": "^3.8.2",
-    "typescript": "^2.5.3"
+    "neo4j-driver": "^1.5.0",
+    "shortid": "^2.2.8"
   },
   "devDependencies": {
     "@types/mocha": "^2.2.43",
@@ -47,6 +49,7 @@
     "nodemon": "^1.12.1",
     "power-assert": "^1.4.4",
     "sinon": "^4.0.1",
-    "source-map-support": "^0.5.0"
+    "source-map-support": "^0.5.0",
+    "typescript": "^2.4.0"
   }
 }
