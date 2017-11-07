@@ -1,6 +1,7 @@
 import { v1 as neo4j } from 'neo4j-driver';
 import { Observable } from 'rxjs';
 import * as config from './config';
+import { Neo4jError } from 'neo4j-driver/types/v1';
 
 export type Db = typeof db;
 
@@ -11,7 +12,7 @@ export namespace db {
         return _db;
     };
 
-    export function run<T = any>( query: string, parameters: { [key: string]: any } = {} ): Observable<T[]> {
+    export function run<T = any>( query: string, parameters?: { [key: string]: any } ): Observable<T[]> {
         const s = db().session();
         const r = Observable.fromPromise( s.run( query, parameters ) )
             .map( res => res.records.map( rec => rec.keys.reduce( ( acc, c ) => ({
@@ -19,7 +20,8 @@ export namespace db {
                 [c]: rec.get( c )
             }), {} ) as T ) );
 
-        r.subscribe( _ => {}, _ => {
+        r.subscribe( _ => {}, (err: Neo4jError) => {
+            console.error( 'Neo4j on error', err.code, err.message );
             s.close()
         }, () => {
             s.close()

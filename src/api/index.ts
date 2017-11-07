@@ -12,14 +12,13 @@ router.use( '/model.json', bodyParser.urlencoded( { extended: true } ), handlers
 
 router.use( '/test', ( req, res ) => {
     const db = getContext().db;
-    db.run<{ Total: v1.Integer, Universes: v1.Node[] }>( `
-    MATCH (e :Universe)-[r :CreatedBy]->(u: User)
-    WITH e, r, u
-    ORDER BY r.at DESC
-    RETURN count(e) As Total, collect(e) as Universes
-   ` ).subscribe( r => {
-        console.log( 'success' );
-        res.json( r.reduce( ( acc: Universe[], c ) => c.Universes.reduce( ( acc2, c2 ) => [ ...acc2, Universe.fromNode( c2 ) ], acc ), [] ) );
+    db.run<{ u: v1.Node }>( `
+                    MATCH (u :Universe)-[r :CreatedBy]->(us :User)
+                    WITH u, r, us                   
+                    ORDER BY r.at DESC
+                    RETURN u
+   `, { ids: [ 1 ] } ).map( s => s.map( _ => Universe.fromNode( _.u ) ) ).subscribe( r => {
+        res.json( r );
     } );
 } );
 

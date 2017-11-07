@@ -6,6 +6,8 @@ import { Context } from '../context'
 import * as universes from './universes';
 
 
-export const handlers = ( config: Context ): Handler => falcorExpress.dataSourceRoute( ( req, res ) => new FalcorRouter( [
-    ...universes.routes( config, req, res ),
-] ) );
+export const handlers = ( config: Context ): Handler => {
+    return falcorExpress.dataSourceRoute( ( req, res ) => new FalcorRouter( [
+        ...universes.routes( config, req, res ),
+    ] ) );
+};
